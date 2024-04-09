@@ -10,7 +10,7 @@ function SignUp() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((auth) => {
         if (auth) {
-          navigate("/");
+          navigate("/home");
         }
       })
       .catch((error) => alert(error.message));
