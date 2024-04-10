@@ -1,31 +1,27 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.js";
-import { useAuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const SignUp = () => {
-  const { user } = useAuthContext();
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
     console.log(email.value, password.value);
-    createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then((userCredential) => {
-        // ユーザーのサインアップが成功した場合の処理
-        const user = userCredential.user;
-        console.log("User signed up:", user);
-      })
-      .catch((error) => {
-        // サインアップに失敗した場合の処理
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Sign up error:", errorCode, errorMessage);
-      });
+    try {
+      await createUserWithEmailAndPassword(auth, email.value, password.value);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
     <div>
-      <h1>ユーザ登録{user.email}</h1>
+      <h1>ユーザ登録</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>メールアドレス</label>
@@ -37,6 +33,9 @@ const SignUp = () => {
         </div>
         <div>
           <button>登録</button>
+        </div>
+        <div>
+          ユーザ登録済の場合は<Link to={"/login"}>こちら</Link>から
         </div>
       </form>
     </div>

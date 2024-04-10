@@ -1,7 +1,7 @@
 import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
 
@@ -9,13 +9,15 @@ function App() {
   return (
     <AuthProvider>
       <div style={{ margin: "2em" }}>
-        <Router>
+        <BrowserRouter>
           <Routes>
-            <Route exact path="/" component={Home} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/login" component={Login} />
+            <Route exact path="/" element={<Home />} />
+            <Route path="/signup" element={<SignUp />} />
+            {/* <Route path="/signup" element={<PublicRoute />} /> */}
+            <Route path="/login" element={<Login />} />
+            {/* <Route path="/login" element={<PublicRoute />} /> */}
           </Routes>
-        </Router>
+        </BrowserRouter>
       </div>
     </AuthProvider>
   );
