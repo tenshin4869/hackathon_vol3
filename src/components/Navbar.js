@@ -1,66 +1,60 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  CssBaseline,
-  Typography,
-  makeStyles,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import "./Navbar.css";
+import logo_light from "../assets/logo-black.png";
+import logo_dark from "../assets/logo-white.png";
+import search_icon_light from "../assets/search-w.png";
+import search_icon_dark from "../assets/search-b.png";
+import toggle_light from "../assets/night.png";
+import toggle_dark from "../assets/day.png";
 import { Link } from "react-router-dom";
-import DrawerComponent from "./Drawer";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  navlinks: {
-    marginLeft: theme.spacing(5),
-    display: "flex",
-  },
-  logo: {
-    flexGrow: "1",
-    cursor: "pointer",
-  },
-  link: {
-    textDecoration: "none",
-    color: "white",
-    fontSize: "20px",
-    marginLeft: theme.spacing(20),
-    "&:hover": {
-      color: "yellow",
-      borderBottom: "1px solid white",
-    },
-  },
-}));
-
-function Navbar() {
-  const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+export default function Navbar({ theme, setTheme }) {
+  const toggle_mode = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+  const navigation = useNavigate();
+  const handleLogout = () => {
+    auth.signOut();
+    navigation("/login");
+  };
 
   return (
-    <AppBar position="static">
-      <CssBaseline />
-      <Toolbar>
-        <Typography variant="h4" className={classes.logo}>
-          Navbar
-        </Typography>
-        {isMobile ? (
-          <DrawerComponent />
-        ) : (
-          <div className={classes.navlinks}>
-            <Link to="/" className={classes.link}>
-              Home
-            </Link>
-            <Link to="/createpost" className={classes.link}>
-              Post
-            </Link>
-            <Link to="/login" className={classes.link}>
-              Login
-            </Link>
-          </div>
-        )}
-      </Toolbar>
-    </AppBar>
+    <div className="navbar">
+      <img
+        src={theme === "light" ? logo_light : logo_dark}
+        alt=""
+        className="logo"
+      />
+      <ul>
+        <Link to="/" className="ul-Link">
+          Home
+        </Link>
+        <Link to="/createpost" className="ul-Link">
+          CreatePost
+        </Link>
+        <Link to="/login" className="ul-Link" onClick={handleLogout}>
+          Logout
+        </Link>
+      </ul>
+
+      <div className="search-box">
+        <input type="text" placeholder="Search" />
+        <img
+          src={theme === "light" ? search_icon_light : search_icon_dark}
+          alt=""
+        />
+      </div>
+
+      <img
+        onClick={() => {
+          toggle_mode();
+        }}
+        src={theme === "light" ? toggle_light : toggle_dark}
+        alt=""
+        className="toggle-icon"
+      />
+    </div>
   );
 }
-export default Navbar;
