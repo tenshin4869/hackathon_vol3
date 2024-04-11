@@ -1,6 +1,7 @@
 import { auth } from "../firebase";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const navigation = useNavigate();
@@ -15,6 +16,7 @@ const Home = () => {
   } else {
     return (
       <div>
+        <Navbar />
         <h1>ホームページ</h1>
         <button onClick={handleLogout}>ログアウト</button>
       </div>
