@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<Home />} />
+            <Route path="/createpost" element={<CreatePost />} />
             <Route path="/signup" element={<SignUp />} />
             {/* <Route path="/signup" element={<PublicRoute />} /> */}
             <Route path="/login" element={<Login />} />
