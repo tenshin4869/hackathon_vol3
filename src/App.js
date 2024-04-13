@@ -3,7 +3,6 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import PublicRoute from "./components/PublicRoute";
 import CreatePost from "./components/CreatePost";
 import PostDetail from "./components/PostDetail";
 
