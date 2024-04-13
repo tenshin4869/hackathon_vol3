@@ -34,7 +34,8 @@ const Home = () => {
     return (
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.postText.toLowerCase().includes(searchQuery.toLowerCase())
+      post.postText.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.author.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
 
