@@ -5,6 +5,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
 import CreatePost from "./components/CreatePost";
+import PostDetail from "./components/PostDetail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             {/* <Route path="/signup" element={<PublicRoute />} /> */}
             <Route path="/login" element={<Login />} />
             {/* <Route path="/login" element={<PublicRoute />} /> */}
+            <Route path="/post/:id" element={<PostDetail />} />
           </Routes>
         </BrowserRouter>
       </div>
