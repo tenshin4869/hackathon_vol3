@@ -10,7 +10,11 @@ import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ theme, setTheme }) {
+export default function Navbar({ theme, setTheme, setSearchQuery }) {
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const toggle_mode = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
@@ -40,7 +44,7 @@ export default function Navbar({ theme, setTheme }) {
       </ul>
 
       <div className="search-box">
-        <input type="text" placeholder="Search" />
+        <input type="text" placeholder="Search" onChange={handleSearchChange} />
         <img
           src={theme === "light" ? search_icon_light : search_icon_dark}
           alt=""

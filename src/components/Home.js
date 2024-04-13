@@ -17,17 +17,26 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-
-// ... (他のimport文は変更なし)
+import Fab from "@mui/material/Fab";
+import Divider from "@mui/material/Divider";
 
 const Home = () => {
   const [postList, setPostList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredPosts = postList.filter((post) => {
+    return (
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.postText.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   // 各カードのexpanded状態を管理する配列
   const [expandedArray, setExpandedArray] = React.useState([]);
@@ -47,6 +56,10 @@ const Home = () => {
 
   const handleCardClick = (post) => {
     navigate(`/post/${post.id}`, { state: post });
+  };
+
+  const handleCreateClick = () => {
+    navigate("./createpost");
   };
 
   const current_theme = localStorage.getItem("current_theme");
@@ -75,10 +88,14 @@ const Home = () => {
   } else {
     return (
       <div className={`container ${theme}`}>
-        <Navbar theme={theme} setTheme={setTheme} />
+        <Navbar
+          theme={theme}
+          setTheme={setTheme}
+          setSearchQuery={setSearchQuery}
+        />
         <div className="homePage">
           <div className="cardContainer">
-            {postList.map((post, index) => {
+            {filteredPosts.map((post, index) => {
               const isExpanded = expandedArray[index];
               const handleExpandClick = () => {
                 const newExpandedArray = [...expandedArray];
@@ -87,12 +104,9 @@ const Home = () => {
               };
 
               return (
-                <Card
-                  sx={{ maxWidth: 300 }}
-                  key={post.id}
-                  onClick={() => handleCardClick(post)}
-                >
+                <Card sx={{ maxWidth: 300 }} key={post.id}>
                   <CardHeader title={post.author.username}></CardHeader>
+                  <Divider variant="middle" />
                   <Box
                     display="flex"
                     justifyContent="center"
@@ -100,11 +114,13 @@ const Home = () => {
                     height={190}
                     width={300}
                     bgcolor="white"
+                    onClick={() => handleCardClick(post)}
                   >
                     <Typography variant="h5" color="textPrimary">
                       {post.title}
                     </Typography>
                   </Box>
+                  <Divider variant="middle" />
                   <CardContent>
                     <Typography variant="body2" color="text.secondary">
                       {post.subtitle}
@@ -143,6 +159,15 @@ const Home = () => {
             })}
           </div>
         </div>
+        <Box position="fixed" bottom={30} right={50} zIndex={1000}>
+          <Fab
+            color="primary"
+            aria-label="edit"
+            onClick={() => handleCreateClick()}
+          >
+            <EditIcon />
+          </Fab>
+        </Box>
       </div>
     );
   }
