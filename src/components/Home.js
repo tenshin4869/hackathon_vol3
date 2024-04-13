@@ -11,6 +11,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
+import { useNavigate } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -41,6 +42,12 @@ const Home = () => {
     };
     getPosts();
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleCardClick = (post) => {
+    navigate(`/post/${post.id}`, { state: post });
+  };
 
   const current_theme = localStorage.getItem("current_theme");
   const [theme, setTheme] = useState(current_theme ? current_theme : "light");
@@ -80,7 +87,11 @@ const Home = () => {
               };
 
               return (
-                <Card sx={{ maxWidth: 300 }} key={post.id}>
+                <Card
+                  sx={{ maxWidth: 300 }}
+                  key={post.id}
+                  onClick={() => handleCardClick(post)}
+                >
                   <CardHeader title={post.author.username}></CardHeader>
                   <Box
                     display="flex"
