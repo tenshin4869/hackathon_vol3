@@ -51,7 +51,7 @@ export default function CreatePost() {
       <Navbar theme={theme} setTheme={setTheme} />
       <div className="createPostPage">
         <div className="postContainer">
-          <h1>記事を投稿する</h1>
+          <h2>記事を投稿する</h2>
           <div className="inputPost">
             <div>タイトル</div>
             <input
