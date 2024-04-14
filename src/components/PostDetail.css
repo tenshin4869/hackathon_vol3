@@ -1,0 +1,112 @@
+.album-web {
+    background: rgb(255, 251, 251);
+    text-align: center;
+    border-radius: 10px;
+  }
+  
+  body {
+    padding: 10px 50px;
+    margin: 10px 0;
+    border-radius: 10px;
+  }
+  .page {
+    box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
+  }
+  
+  .cover {
+    background-color: honeydew;
+    box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
+  }
+  
+  .btn,
+  .form-control {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: inherit;
+    appearance: none;
+    font-size: 1em;
+    line-height: 1.2;
+    padding: 0.5em var(--padding-x);
+    border-width: 2px;
+    border-style: solid;
+  }
+  
+  .form-control {
+    --padding-x: 0.5em;
+  }
+  
+  .formContainer {
+    align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .box-title {
+    padding: 8px 19px;
+    margin: 2em 0;
+    color: #2c2c2f;
+    background: honeydew;
+    border-top: solid 5px #b8efa1;
+    border-bottom: solid 5px #b8efa1;
+  }
+  .box-title h2 {
+    padding: 0px;
+  }
+  .username h2 {
+    font-size: 20px;
+    position: relative;
+  }
+  .username h2::before {
+    content: "";
+  
+    width: 200px;
+    height: 0;
+    border-bottom: 1px solid #333;
+    position: absolute;
+    bottom: -10px; /* 文字の下に配置するために調整 */
+    left: 50%; /* 中央に配置 */
+    transform: translateX(-50%); /* 中央に配置 */
+  }
+  
+  .container {
+    color: #555;
+    font-family: serif;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+  
+  .container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 6px double #0bd;
+  }
+  
+  main {
+    margin-bottom: 3rem;
+  }
+  main p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    line-height: 2;
+  }
+  
+  .pagecontent {
+    display: flex;
+    justify-content: center; /* 水平方向に中央寄せ */
+    align-items: center; /* 垂直方向に中央寄せ */
+  }
+  
+  .pageitem {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* アイテムを垂直方向に中央寄せ */
+    margin-top: 50%;
+  }
+  
+  .center-content {
+    display: flex;
+    align-items: center; /* アイテムを水平方向に中央寄せ */
+  }
