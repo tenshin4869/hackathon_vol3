@@ -30,9 +30,6 @@ export default function CreatePost() {
       },
     });
 
-    {
-      /*投稿ボタンを押したらhomeに戻る*/
-    }
     navigate("/");
   };
 

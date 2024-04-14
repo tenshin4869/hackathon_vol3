@@ -7,7 +7,6 @@ import Navbar from "./Navbar";
 import "./PostDetail.css";
 import HTMLFlipBook from "react-pageflip";
 import Checkbox from "@mui/material/Checkbox";
-import { Favorite, FavoriteBorder, Margin } from "@mui/icons-material";
 import StarsOutlinedIcon from "@mui/icons-material/StarsOutlined";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import { yellow } from "@mui/material/colors";
@@ -95,7 +94,7 @@ const PostDetail = (props) => {
   };
   useEffect(() => {
     getComments();
-  }, []);
+  });
   const createComment = async () => {
     await addDoc(collectionPath, {
       comment: comment,
