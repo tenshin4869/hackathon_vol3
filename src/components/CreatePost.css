@@ -1,3 +1,4 @@
+/* 共通スタイル */
 .createPostPage {
   display: flex;
   align-items: center;
@@ -7,7 +8,6 @@
 }
 
 .postContainer {
-  background-color: floralwhite;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -19,45 +19,50 @@
   box-shadow: 5px 9px 15px 2px rgba(1, 1, 2, 0.35);
 }
 
-.postContainer h1 {
-  margin: 0;
-}
-.postContainer input {
+.postContainer input,
+.postContainer textarea {
   width: 100%;
-  height: 30px;
   outline: none;
-  padding: 0px 4px;
-}
-
-.sub-inputPost input {
-  width: 100%;
-  height: 50px;
-  outline: none;
-  padding: 0px 4px;
+  padding: 4px;
 }
 
 .postContainer textarea {
-  width: 100%;
   height: 190px;
-  outline: none;
-  padding: 7px;
 }
 
+/* ライトモード スタイル */
+.container.light .postContainer {
+  background-color: floralwhite; /* ライトモードの背景色 */
+  color: #000; /* ライトモードのテキスト色 */
+}
+
+.container.light .postButton {
+  background-color: #3d77a5; /* ライトモードのボタン色 */
+  color: white;
+}
+
+/* ダークモード スタイル */
+.container.dark .postContainer {
+  background-color: #333; /* ダークモードの背景色 */
+  color: #fff; /* ダークモードのテキスト色 */
+}
+
+.container.dark .postButton {
+  background-color: #555; /* ダークモードのボタン色 */
+  color: white;
+}
+
+/* ボタンスタイル */
 .postButton {
   padding: 10px 0;
-  background-color: #3d77a5;
   border: none;
   box-shadow: 5px 9px 15px 2px rgba(1, 1, 2, 0.35);
-  color: white;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.5s;
 }
 
 .postButton:hover {
-  transform: translateY(5px);
-  box-shadow: none;
-  padding-top: 10px;
-}
-.inputPost {
+  transform: translateY(-3px);
+  box-shadow: 2px 4px 6px 1px rgba(0, 0, 0, 0.2);
 }

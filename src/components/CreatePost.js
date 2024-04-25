@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
@@ -6,6 +6,7 @@ import "./CreatePost.css";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThmeContext";
 
 export default function CreatePost() {
   //タイトルを格納
@@ -15,7 +16,7 @@ export default function CreatePost() {
   const [postText, setPostText] = useState();
   //著者名を格納
   const [author, setAuthor] = useState();
-
+  const { theme } = useTheme(); // ThemeContextからテーマを取得
   //ホームにリダイレクトする
   const navigate = useNavigate();
 
@@ -32,20 +33,13 @@ export default function CreatePost() {
 
     navigate("/");
   };
-
-  const current_theme = localStorage.getItem("current_theme");
-  const [theme, setTheme] = useState(current_theme ? current_theme : "light");
-
-  useEffect(() => {
-    localStorage.setItem("current_theme", theme);
-  }, [theme]);
   const { user } = useAuthContext();
   if (!user) {
     return <Navigate to="/login" />;
   }
   return (
     <div className={`container ${theme}`}>
-      <Navbar theme={theme} setTheme={setTheme} />
+      <Navbar />
       <div className="createPostPage">
         <div className="postContainer">
           <h2>記事を投稿する</h2>

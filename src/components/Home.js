@@ -7,7 +7,7 @@ import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-
+import { useTheme } from "../context/ThmeContext";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
@@ -27,6 +27,7 @@ import Fab from "@mui/material/Fab";
 import Divider from "@mui/material/Divider";
 
 const Home = () => {
+  const { theme } = useTheme();
   const [postList, setPostList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -40,20 +41,19 @@ const Home = () => {
   });
 
   // 各カードのexpanded状態を管理する配列
-  const [expandedArray, setExpandedArray] = React.useState([]);
-
+  const [expandedArray, setExpandedArray] = useState([]);
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
   useEffect(() => {
     const getPosts = async () => {
       const data = await getDocs(collection(db, "posts"));
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-
       // 初期のexpanded状態をfalseで設定
       setExpandedArray(Array(data.docs.length).fill(false));
     };
     getPosts();
   }, []);
-
-  const navigate = useNavigate();
 
   const handleCardClick = (post) => {
     navigate(`/post/${post.id}`, { state: post });
@@ -62,9 +62,6 @@ const Home = () => {
   const handleCreateClick = () => {
     navigate("./createpost");
   };
-
-  const current_theme = localStorage.getItem("current_theme");
-  const [theme, setTheme] = useState(current_theme ? current_theme : "light");
 
   const handleDelete = async (id) => {
     const docRef = doc(db, "posts", id);
@@ -81,19 +78,12 @@ const Home = () => {
     localStorage.setItem("current_theme", theme);
   }, [theme]);
 
-  const { user } = useAuthContext();
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
   if (!user) {
     return <Navigate to="/login" />;
   } else {
     return (
       <div className={`container ${theme}`}>
-        <Navbar
-          theme={theme}
-          setTheme={setTheme}
-          setSearchQuery={setSearchQuery}
-        />
+        <Navbar setSearchQuery={setSearchQuery} />
         <div className="homePage">
           <div className="cardContainer">
             {filteredPosts.map((post, index) => {

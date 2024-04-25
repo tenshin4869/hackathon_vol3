@@ -1,112 +1,149 @@
+/* ライトモードのスタイル */
+.container.light {
+  background-color: #ffffff; /* 明るい背景色 */
+  color: #333; /* 暗めのテキスト色 */
+}
+
+.container.light .album-web,
+.container.light .cover,
+.container.light .box-title {
+  background-color: #f0f0f0; /* 明るい背景色 */
+}
+
+/* ダークモードのスタイル */
+.container.dark {
+  background-color: #333; /* 暗い背景色 */
+  color: #ccc; /* 明るいテキスト色 */
+}
+
+.container.dark .album-web,
+.container.dark .cover,
+.container.dark .box-title {
+  background-color: #424242; /* ダークモード用の背景色 */
+}
+
+/* 共通スタイル */
 .album-web {
-    background: rgb(255, 251, 251);
-    text-align: center;
-    border-radius: 10px;
-  }
-  
-  body {
-    padding: 10px 50px;
-    margin: 10px 0;
-    border-radius: 10px;
-  }
-  .page {
-    box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
-  }
-  
-  .cover {
-    background-color: honeydew;
-    box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
-  }
-  
-  .btn,
-  .form-control {
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    color: inherit;
-    appearance: none;
-    font-size: 1em;
-    line-height: 1.2;
-    padding: 0.5em var(--padding-x);
-    border-width: 2px;
-    border-style: solid;
-  }
-  
-  .form-control {
-    --padding-x: 0.5em;
-  }
-  
-  .formContainer {
-    align-items: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .box-title {
-    padding: 8px 19px;
-    margin: 2em 0;
-    color: #2c2c2f;
-    background: honeydew;
-    border-top: solid 5px #b8efa1;
-    border-bottom: solid 5px #b8efa1;
-  }
-  .box-title h2 {
-    padding: 0px;
-  }
-  .username h2 {
-    font-size: 20px;
-    position: relative;
-  }
-  .username h2::before {
-    content: "";
-  
-    width: 200px;
-    height: 0;
-    border-bottom: 1px solid #333;
-    position: absolute;
-    bottom: -10px; /* 文字の下に配置するために調整 */
-    left: 50%; /* 中央に配置 */
-    transform: translateX(-50%); /* 中央に配置 */
-  }
-  
-  .container {
-    color: #555;
-    font-family: serif;
-    padding: 1rem;
-    margin: 0 auto;
-  }
-  
-  .container h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 6px double #0bd;
-  }
-  
-  main {
-    margin-bottom: 3rem;
-  }
-  main p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    line-height: 2;
-  }
-  
-  .pagecontent {
-    display: flex;
-    justify-content: center; /* 水平方向に中央寄せ */
-    align-items: center; /* 垂直方向に中央寄せ */
-  }
-  
-  .pageitem {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* アイテムを垂直方向に中央寄せ */
-    margin-top: 50%;
-  }
-  
-  .center-content {
-    display: flex;
-    align-items: center; /* アイテムを水平方向に中央寄せ */
-  }
+  background: rgb(255, 251, 251);
+  text-align: center;
+  border-radius: 10px;
+}
+
+.page {
+  box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
+}
+
+.cover {
+  box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
+}
+
+.btn,
+.form-control {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  appearance: none;
+  font-size: 1em;
+  line-height: 1.2;
+  padding: 0.5em var(--padding-x);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.form-control {
+  --padding-x: 0.5em;
+}
+
+.formContainer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.box-title {
+  padding: 8px 19px;
+  margin: 2em 0;
+  color: #2c2c2f;
+  border-top: solid 5px #b8efa1;
+  border-bottom: solid 5px #b8efa1;
+}
+
+.box-title h2 {
+  padding: 0px;
+}
+
+.username h2 {
+  font-size: 20px;
+  position: relative;
+}
+
+.username h2::before {
+  content: "";
+  width: 200px;
+  height: 0;
+  border-bottom: 1px solid #333;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.container {
+  padding: 1rem;
+  margin: 0 auto;
+  transition: background-color 0.3s, color 0.3s; /* スムーズな色変化を追加 */
+}
+
+.container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 6px double #0bd;
+}
+
+main p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  line-height: 2;
+}
+
+.pagecontent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageitem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50%;
+}
+
+.center-content {
+  display: flex;
+  align-items: center;
+}
+
+.container.light,
+.container.dark,
+.container.light .album-web,
+.container.light .cover,
+.container.light .box-title,
+.container.dark .album-web,
+.container.dark .cover,
+.container.dark .box-title {
+  transition: background-color 0.3s;
+}
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.action-buttons .MuiSvgIcon-root,
+.action-buttons .MuiButton-root {
+  margin: 0 15px; /* ボタン間の余白を調整 */
+}

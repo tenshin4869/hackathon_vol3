@@ -9,14 +9,17 @@ import toggle_dark from "../assets/day.png";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThmeContext";
 
-export default function Navbar({ theme, setTheme, setSearchQuery }) {
+export default function Navbar({ setSearchQuery }) {
+  const { theme, toggleTheme } = useTheme();
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
   const toggle_mode = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
+    toggleTheme();
   };
   const navigation = useNavigate();
   const handleLogout = () => {
@@ -52,9 +55,7 @@ export default function Navbar({ theme, setTheme, setSearchQuery }) {
       </div>
 
       <img
-        onClick={() => {
-          toggle_mode();
-        }}
+        onClick={toggle_mode}
         src={theme === "light" ? toggle_light : toggle_dark}
         alt=""
         className="toggle-icon"

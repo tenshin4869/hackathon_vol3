@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-
+import { useTheme } from "../context/ThmeContext"; // ThemeContextをインポート
 import {
   addDoc,
   collection,
@@ -60,13 +60,14 @@ const Page = React.forwardRef((props, ref) => {
 });
 
 const PostDetail = () => {
+  const { theme } = useTheme();
   const location = useLocation();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [commentList, setCommentList] = useState([]);
-  const [commenter, setCommenter] = useState();
-  const [comment, setComment] = useState();
+  const [commenter, setCommenter] = useState("");
+  const [comment, setComment] = useState("");
   //コメントを見るとき
-  const [openSee, setOpenSee] = React.useState(false);
+  const [openSee, setOpenSee] = useState(false);
   const handleOpen = () => {
     console.log("Opening comment modal...");
     setOpen(true);
@@ -86,7 +87,7 @@ const PostDetail = () => {
 
   //postに記事内容を格納
   const post = location.state;
-  const current_theme = localStorage.getItem("current_theme");
+
   const collectionPath = collection(db, "posts", post.id, "comments");
   //コメント機能の実装
   const handleDelete = async (id) => {
@@ -117,10 +118,7 @@ const PostDetail = () => {
     // コメントを投稿した後、コメントリストを再取得して更新する
     getComments();
   };
-  const [theme, setTheme] = useState(current_theme ? current_theme : "light");
-  useEffect(() => {
-    localStorage.setItem("current_theme", theme);
-  }, [theme]);
+
   const { user } = useAuthContext();
   if (!user) {
     return <Navigate to="/login" />;
@@ -131,10 +129,37 @@ const PostDetail = () => {
 
   return (
     <div className={`container ${theme}`}>
-      <Navbar theme={theme} setTheme={setTheme} />
+      <Navbar />
       <div style={{ backgroundColor: "#808080" }}>
-        {" "}
-        {/* bgcolorをstyle属性に変更 */}
+        <div
+          className="action-buttons"
+          style={{ textAlign: "center", marginTop: "20px" }}
+        >
+          <MapsUgcIcon
+            sx={{ fontSize: 40, cursor: "pointer", margin: "0 20px" }}
+            onClick={handleOpen}
+            titleAccess="コメントを追加"
+          />
+          <Checkbox
+            sx={{
+              color: yellow[800],
+              "&.Mui-checked": { color: yellow[600] },
+              margin: "0 20px",
+            }}
+            {...label}
+            icon={<StarsOutlinedIcon sx={{ fontSize: 40 }} />}
+            checkedIcon={<StarsRoundedIcon sx={{ fontSize: 40 }} />}
+          />
+          <Button
+            variant="contained"
+            color="success"
+            size="medium"
+            onClick={handleOpenSee}
+            sx={{ margin: "0 20px" }}
+          >
+            みんなのコメント
+          </Button>
+        </div>
         <HTMLFlipBook
           width={450}
           height={600}
@@ -190,132 +215,94 @@ const PostDetail = () => {
           <Page number="2">
             <div className="container">
               <div>
-                {" "}
-                {/* <main>を<div>に変更 */}
                 <h1>{post.title}</h1>
-                <div contentEditable="true">
-                  {post.postText.slice(400)}
-                </div>{" "}
-                {/* <p>を<div>に変更 */}
+                <div contentEditable="true">{post.postText.slice(400)}</div>
               </div>
             </div>
           </Page>
           <PageCover>
             <div className="pagecontent">
-              <div className="pageitem">
-                <div className="center-content">
-                  <Checkbox
-                    sx={{
-                      color: yellow[800],
-                      "&.Mui-checked": { color: yellow[600] },
-                      marginRight: "16px",
-                    }}
-                    {...label}
-                    icon={<StarsOutlinedIcon sx={{ fontSize: 40 }} />}
-                    checkedIcon={<StarsRoundedIcon sx={{ fontSize: 40 }} />}
-                  />
-                  <div style={{ alignItems: "center" }}>
-                    <MapsUgcIcon
-                      sx={{ fontSize: 40, marginRight: "10px" }}
-                      onClick={handleOpen}
-                    />
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        <Typography
-                          id="modal-modal-title"
-                          variant="h6"
-                          component="h2"
-                        >
-                          コメントしよう！
-                        </Typography>
-                        <TextField
-                          required
-                          id="outlined-required"
-                          label="ユーザー名"
-                          defaultValue=""
-                          onChange={(e) => setCommenter(e.target.value)}
-                        />
-                        <TextField
-                          id="outlined-multiline-flexible"
-                          label="コメント"
-                          multiline
-                          maxRows={4}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                        <button
-                          className="postButton"
-                          onClick={(e) => {
-                            createComment();
-                            handleClose();
-                          }}
-                        >
-                          投稿する
-                        </button>
-                      </Box>
-                    </Modal>
-                    <p
-                      style={{
-                        fontSize: "7px",
-                        color: "rgba(0, 0, 0, 0.6)",
-                        margin: 0,
-                      }}
-                    >
-                      応援コメント
-                    </p>
-                  </div>
+              <div className="center-content">
+                <div style={{ alignItems: "center" }}>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={style}>
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                      >
+                        コメントしよう！
+                      </Typography>
+                      <TextField
+                        required
+                        id="outlined-required"
+                        label="ユーザー名"
+                        defaultValue=""
+                        onChange={(e) => setCommenter(e.target.value)}
+                      />
+                      <TextField
+                        id="outlined-multiline-flexible"
+                        label="コメント"
+                        multiline
+                        maxRows={4}
+                        onChange={(e) => setComment(e.target.value)}
+                      />
+                      <button
+                        className="postButton"
+                        onClick={(e) => {
+                          createComment();
+                          handleClose();
+                        }}
+                      >
+                        投稿する
+                      </button>
+                    </Box>
+                  </Modal>
                 </div>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  sx={{ margin: "10px" }}
-                  onClick={handleOpenSee}
-                >
-                  みんなのコメント
-                </Button>
-                <Modal
-                  open={openSee}
-                  onClose={handleCloseSee}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                    >
-                      コメント一覧
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      {commentList.map((comment) => (
-                        <div className="comments" key={comment.id}>
-                          <div className="postHeader">
-                            <div>{comment.comment}</div>{" "}
-                            {/* <p>を<div>に変更 */}
-                          </div>
-                          <div className="postHeader">
-                            <div>{comment.commenter.username}</div>{" "}
-                            {/* <p>を<div>に変更 */}
-                          </div>
-                          {comment.commenter.id === auth.currentUser.uid && (
-                            <IconButton
-                              aria-label="delete"
-                              onClick={() => handleDelete(comment.id)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          )}
-                        </div>
-                      ))}
-                    </Typography>
-                  </Box>
-                </Modal>
               </div>
+
+              <Modal
+                open={openSee}
+                onClose={handleCloseSee}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    コメント一覧
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    {commentList.map((comment) => (
+                      <div className="comments" key={comment.id}>
+                        <div className="postHeader">
+                          <div>{comment.comment}</div> {/* <p>を<div>に変更 */}
+                        </div>
+                        <div className="postHeader">
+                          <div>{comment.commenter.username}</div>{" "}
+                          {/* <p>を<div>に変更 */}
+                        </div>
+                        {comment.commenter.id === auth.currentUser.uid && (
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => handleDelete(comment.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        )}
+                      </div>
+                    ))}
+                  </Typography>
+                </Box>
+              </Modal>
             </div>
           </PageCover>
         </HTMLFlipBook>
