@@ -27,19 +27,16 @@ import {
 import { auth, db } from "../firebase";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 const PageCover = React.forwardRef((props, ref) => {
   return (
     <div className="cover" ref={ref} data-density="hard">
@@ -130,7 +127,7 @@ const PostDetail = () => {
   return (
     <div className={`container ${theme}`}>
       <Navbar />
-      <div style={{ backgroundColor: "#808080" }}>
+      <div className="background">
         <div
           className="action-buttons"
           style={{ textAlign: "center", marginTop: "20px" }}
@@ -185,7 +182,7 @@ const PostDetail = () => {
                 padding: "45px",
                 fontSize: "20px",
                 fontWeight: "bold",
-                color: "#333",
+                color: "#8FBC8F",
               }}
               className="box-title"
             >
@@ -230,37 +227,61 @@ const PostDetail = () => {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
-                    <Box sx={style}>
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "90%", // モーダルの幅を画面幅に応じて調整
+                        maxWidth: 500, // 最大幅を設定
+                        bgcolor: "background.paper",
+                        border: "2px solid #ccc",
+                        boxShadow: 24,
+                        p: 4,
+                        borderRadius: "8px", // 角の丸みを加える
+                      }}
+                    >
                       <Typography
                         id="modal-modal-title"
                         variant="h6"
                         component="h2"
+                        sx={{ mb: 2, fontWeight: "bold", color: "#333" }}
                       >
                         コメントしよう！
                       </Typography>
                       <TextField
+                        fullWidth
                         required
                         id="outlined-required"
                         label="ユーザー名"
                         defaultValue=""
                         onChange={(e) => setCommenter(e.target.value)}
+                        variant="outlined"
+                        sx={{ mb: 2 }}
                       />
                       <TextField
+                        fullWidth
                         id="outlined-multiline-flexible"
                         label="コメント"
                         multiline
-                        maxRows={4}
+                        rows={4}
                         onChange={(e) => setComment(e.target.value)}
+                        variant="outlined"
+                        sx={{ mb: 2 }}
                       />
-                      <button
-                        className="postButton"
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
                         onClick={(e) => {
                           createComment();
                           handleClose();
                         }}
+                        sx={{ mt: 2 }}
                       >
                         投稿する
-                      </button>
+                      </Button>
                     </Box>
                   </Modal>
                 </div>
@@ -271,36 +292,75 @@ const PostDetail = () => {
                 onClose={handleCloseSee}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                sx={{ overflowY: "auto" }} // スクロール可能に
               >
-                <Box sx={style}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "90%", // モーダルの幅を画面幅に応じて調整
+                    maxWidth: 500, // 最大幅を設定
+                    bgcolor: "background.paper",
+                    border: "2px solid #ccc",
+                    boxShadow: 24,
+                    p: 4,
+                    borderRadius: "8px", // 角の丸みを加える
+                  }}
+                >
                   <Typography
                     id="modal-modal-title"
                     variant="h6"
                     component="h2"
+                    sx={{ mb: 2, fontWeight: "bold", color: "#333" }}
                   >
                     コメント一覧
                   </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      maxHeight: 300,
+                      overflow: "auto",
+                    }}
+                  >
                     {commentList.map((comment) => (
-                      <div className="comments" key={comment.id}>
-                        <div className="postHeader">
-                          <div>{comment.comment}</div> {/* <p>を<div>に変更 */}
-                        </div>
-                        <div className="postHeader">
-                          <div>{comment.commenter.username}</div>{" "}
-                          {/* <p>を<div>に変更 */}
-                        </div>
+                      <ListItem
+                        key={comment.id}
+                        sx={{
+                          mb: 1,
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                        }}
+                      >
+                        <ListItemAvatar>
+                          <Avatar>
+                            <PersonIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={comment.commenter.username}
+                          secondary={
+                            <React.Fragment>{comment.comment}</React.Fragment>
+                          }
+                          sx={{ ml: 2 }}
+                        />
                         {comment.commenter.id === auth.currentUser.uid && (
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => handleDelete(comment.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
+                          <ListItemSecondaryAction>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => handleDelete(comment.id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
                         )}
-                      </div>
+                      </ListItem>
                     ))}
-                  </Typography>
+                  </List>
                 </Box>
               </Modal>
             </div>

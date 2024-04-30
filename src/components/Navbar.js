@@ -47,7 +47,12 @@ export default function Navbar({ setSearchQuery }) {
       </ul>
 
       <div className="search-box">
-        <input type="text" placeholder="Search" onChange={handleSearchChange} />
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={handleSearchChange}
+          style={{ color: theme === "dark" ? "#000" : "#fff" }}
+        />
         <img
           src={theme === "light" ? search_icon_light : search_icon_dark}
           alt=""
